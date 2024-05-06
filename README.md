@@ -1,172 +1,148 @@
-# AngularJS - Currency Input Component
+# Angular - Currency Input Component
 
-Currency Input component is build in AngularJS, used for currency value input field for all countries. You can change prefix and sufix for input. Can also handle negative and positive values depending on requirement.
+An Angular-based currency input component for adding currency field.
 
-# Table of contents
+## Table of contents
 
+- [Browser Support](#browser-support)
 - [Demo](#demo)
 - [Getting started](#getting-started)
-- [Quick fixes](#quick-fixes)
+- [Usage](#usage)
+- [Available Props](#available-props)
+- [Methods](#methods)
 - [Want to Contribute?](#want-to-contribute)
-- [Need Help / Support?](#need-help)
-- [Collection of Other Components](#collection-of-components)
+- [Collection of Components](#collection-of-components)
 - [Changelog](#changelog)
-- [Credits](#credits)
 - [License](#license)
 - [Keywords](#Keywords)
 
+## Browser Support
+
+| ![Chrome](https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png) | ![Edge](https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png) |
+| ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| 83.0 ✔                                                                                   | 77.0 ✔                                                                                      | 13.1.1 ✔                                                                                 | 83.0 ✔                                                                             | 11.9 ✔                                                                                                                       |
+
 ## Demo
 
-[![](currencyDemo.png)](https://github.com/weblineindia/AngularJS-Currency-Input/currencyDemo.png)
+[![](textNg.gif)](https://github.com/weblineindia/AngularJS-Text-Box/textNg.gif)
 
-## Getting Started
+## Getting started
 
-### Installing and Importing
+Install the npm package:
 
-Install the package by command:
-
-```sh
-    npm install angular-weblineindia-currency-input --save
+```bash
+npm install angular-weblineindia-currency-input
+#OR
+yarn add angular-weblineindia-currency-input
 ```
 
-Import the module
+## Usage
 
-```ts
-import { NgxCurrencyModule } from "angular-weblineindia-currency-input";
+Use the `<angular-weblineindia-currency-input>` component:
+
+Add in app.module.ts file
+
+```typescript
+import { NgModule } from "@angular/core";
+import { AngularWeblineindiaCurrencyInputModule } from "angular-weblineindia-currency-input";
 
 @NgModule({
-    imports: [
-        ...
-        NgxCurrencyModule
-    ],
-    declarations: [...],
-    providers: [...]
+  imports: [AngularWeblineindiaCurrencyInputModule],
 })
 export class AppModule {}
 ```
 
-### Using
+Add in app.component.ts file
+
+```typescript
+export class AppComponent {
+  constructor() {}
+  isInvalidPhoneNumber: boolean = false;
+  invalidMessage: string = "onFocusHandler(event: any): void";
+
+  onFocusHandler(event: any): void {
+    console.log("onFocusHandler: ", event.target.value);
+  }
+  onBlurHandler(event: any): void {
+    console.log("onBlurHandler: ", event.target.value);
+  }
+  onChangeHandler(event: any): void {
+    console.log("onChangeHandler: ", event.target.value);
+  }
+  onKeyPressHandler(event: any): void {
+    console.log("onKeyPressHandler: ", event.target.value);
+  }
+  onKeyDownHandler(event: any): void {
+    console.log("onKeyDownHandler: ", event.target.value);
+  }
+  onKeyUpHandler(event: any): void {
+    console.log("onKeyUpHandler: ", event.target.value);
+  }
+}
+```
+
+Add in app.component.html file
 
 ```html
-<input currencyMask formControlName="value" />
+<angular-weblineindia-currency-input
+  name="myInputName"
+  [value]="203000.45"
+  classname="currency-input"
+  errorClass="errorMessage"
+  placeholder="Enter amount here"
+  [disabled]="true"
+  [required]="false"
+  [prefix]="'$Rs'"
+  [isInvalidPhoneNumber]="isInvalidPhoneNumber"
+  [invalidMessage]="invalidMessage"
+  (focus)="onFocusHandler($event)"
+  (blur)="onBlurHandler($event)"
+  (change)="onChangeHandler($event)"
+  (keyPress)="onKeyPressHandler($event)"
+  (keyDown)="onKeyDownHandler($event)"
+  (keyUp)="onKeyUpHandler($event)"
+>
+</angular-weblineindia-currency-input>
 ```
 
-- `ngModel` An attribute of type number. If is displayed `'$ 25.63'`, the attribute will be `'25.63'`.
+Add in app.component.css file
 
-### Options
+```typescript
+::ng-deep .currency-input {
 
-You can set options...
+}
 
-```html
-<!-- example for pt-BR money -->
-<input
-  currencyMask
-  formControlName="value"
-  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
-/>
+::ng-deep .errorClass {
+  color: RED;
+  margin: 0;
+}
+
 ```
 
-Available options:
+## Available Props
 
-- `align` - Text alignment in input. (default: `right`)
-- `allowNegative` - If `true` can input negative values. (default: `true`)
-- `decimal` - Separator of decimals (default: `'.'`)
-- `precision` - Number of decimal places (default: `2`)
-- `prefix` - Money prefix (default: `'$ '`)
-- `suffix` - Money suffix (default: `''`)
-- `thousands` - Separator of thousands (default: `','`)
-- `nullable` - when true, the value of the clean field will be `null`, when false the value will be `0`
-- `min` - The minimum value (default: `undefined`)
-- `max` - The maximum value (default: `undefined`)
-- `inputMode` - Determines how to handle numbers as the user types them (default: `FINANCIAL`)
+| Prop              | Type    | default | Description                                    |
+| ----------------- | ------- | ------- | ---------------------------------------------- |
+| name              | String  |         | Name for the input                             |
+| value             | String  |         | Initial value of input                         |
+| classname         | String  | false   | CSS class applied for curency input.           |
+| errorClass        | String  |         | CSS class applied for error message            |
+| placeholder       | String  |         | The input field will get this placeholder text |
+| required          | boolean | false   | If true, makes the input field mandatory.      |
+| disabled          | boolean | false   | If true, disables the input field.             |
+| prefix            | String  |         | To set currency type                           |
+| isInvalidPassword | boolean | false   | Indicates if the currency is invalid           |
+| invalidMessage    | String  |         | Message to display when the currncy is invalid |
 
-Input Modes:
+## Methods
 
-- `FINANCIAL` - Numbers start at the highest precision decimal. Typing a number shifts numbers left.
-  The decimal character is ignored. Most cash registers work this way. For example:
-  - Typing `'12'` results in `'0.12'`
-  - Typing `'1234'` results in `'12.34'`
-  - Typing `'1.234'` results in `'12.34'`
-- `NATURAL` - Numbers start to the left of the decimal. Typing a number to the left of the decimal shifts
-  numbers left; typing to the right of the decimal replaces the next number. Most text inputs
-  and spreadsheets work this way. For example:
-  - Typing `'1234'` results in `'1234'`
-  - Typing `'1.234'` results in `'1.23'`
-  - Typing `'12.34'` results in `'12.34'`
-  - Typing `'123.4'` results in `'123.40'`
-
-You can also set options globally...
-
-```ts
-import { CurrencyMaskInputMode, NgxCurrencyModule } from "angular-weblineindia-currency-input";
-
-export const customCurrencyMaskConfig = {
-    align: "right",
-    allowNegative: true,
-    allowZero: true,
-    decimal: ",",
-    precision: 2,
-    prefix: "R$ ",
-    suffix: "",
-    thousands: ".",
-    nullable: true,
-    min: null,
-    max: null,
-    inputMode: CurrencyMaskInputMode.FINANCIAL
-};
-
-@NgModule({
-    imports: [
-        ...
-        NgxCurrencyModule.forRoot(customCurrencyMaskConfig)
-    ],
-    declarations: [...],
-    providers: [...],
-    bootstrap: [AppComponent]
-})
-export class AppModule {}
-```
-
-## Quick fixes
-
-### Ionic 2-3
-
-Input not working on mobile keyboard
-
-```html
-<!-- Change the type to 'tel' -->
-<input currencyMask type="tel" formControlName="value" />
-```
-
-Input focus get hide by the mobile keyboard
-
-on HTML
-
-```html
-<!-- Change the type to 'tel' -->
-<input
-  currencyMask
-  type="tel"
-  formControlName="value"
-  [id]="'yourInputId' + index"
-  (focus)="scrollTo(index)"
-/>
-```
-
-on .ts
-
-```ts
-import { Content } from 'ionic-angular';
-
-export class...
-
-    @ViewChild(Content) content: Content;
-
-    scrollTo(index) {
-        let yOffset = document.getElementById('yourInputId' + index).offsetTop;
-        this.content.scrollTo(0, yOffset + 20);
-    }
-```
+| Name     | Description                                                      |
+| -------- | ---------------------------------------------------------------- |
+| focus    | Gets triggered when the autocomplete input field receives focus. |
+| blur     | Gets triggered when the autocomplete input field loses focus.    |
+| keyPress | Gets triggered when a key gets pressed.                          |
+| keyDown  | Gets triggered when a key gets down.                             |
+| keyUp    | Gets triggered when a key gets up.                               |
 
 ## Want to Contribute?
 
@@ -180,7 +156,7 @@ export class...
 
 ## Collection of Components
 
-We have built many other components and free resources for software development in various programming languages. Kindly click here to view our [Free Resources for Software Development](https://www.weblineindia.com/software-development-resources.html).
+We have built many other components and free resources for software development in various programming languages. Kindly click here to view our [Free Resources for Software Development](https://www.weblineindia.com/software-development-resources.html)
 
 ---
 
@@ -188,16 +164,12 @@ We have built many other components and free resources for software development 
 
 Detailed changes for each release are documented in [CHANGELOG.md](./CHANGELOG.md).
 
-## Credits
-
-angular-weblineindia-currency-input is inspired by [ngx-currency](https://www.npmjs.com/package/ngx-currency).
-
 ## License
 
 [MIT](LICENSE)
 
-[mit]: https://github.com/weblineindia/AngularJS-Currency-Input/blob/master/LICENSE
+[mit]: https://github.com/weblineindia/AngularJS-Text-Box/blob/master/LICENSE
 
 ## Keywords
 
-angularjs-currency, angular-currency-input, angular-input-component, angularjs-input-field, input-field, currency-input
+angular-weblineindia-currency-input, currencyInput, input, angular, angular-component, currencyInput-component, currencyInput-box

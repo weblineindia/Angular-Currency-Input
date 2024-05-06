@@ -1,3 +1,5 @@
-export * from './src/currency-mask.directive';
-export * from './src/currency-mask.module';
-export { CurrencyMaskConfig, CurrencyMaskInputMode } from './src/currency-mask.config';
+/**
+ * Generated bundle index. Do not edit.
+ */
+/// <amd-module name="angular-weblineindia-currency-input" />
+export * from './public-api';
